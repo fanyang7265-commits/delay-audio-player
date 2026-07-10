@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111827" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Delay Audio Player" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Delay Audio Player</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="apple-splash.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="card">
+        <h1>Delay Audio Player</h1>
+        <p class="subtitle">Choose a delay in seconds and play audio after the countdown.</p>
+
+        <label class="field">
+          <span>Delay (seconds)</span>
+          <input id="delayInput" type="number" min="0" step="0.1" value="5" />
+        </label>
+
+        <label class="field">
+          <span>Audio file</span>
+          <input id="fileInput" type="file" accept="audio/*,video/*,.mp3,.m4a,.aac,.wav,.mp4" />
+        </label>
+
+        <div class="actions">
+          <button id="startButton" type="button">Start delay</button>
+          <button id="playNowButton" type="button" class="secondary">Play now</button>
+          <button id="stopButton" type="button" class="danger">Stop</button>
+        </div>
+
+        <label class="field slider-field">
+          <span>Playback progress</span>
+          <input id="progressSlider" type="range" min="0" max="100" value="0" step="0.1" />
+          <div id="timeLabel" class="time-label">0:00 / 0:00</div>
+        </label>
+
+        <p id="status" class="status">Ready to start.</p>
+        <p id="fileName" class="file-name">No file selected. A simple tone will play instead.</p>
+        <p class="install-note">Tip: on iPhone, tap Start delay or Play now after interacting with the page. If the chosen file is blocked, use the tone fallback to confirm playback works.</p>
+      </section>
+    </main>
+
+    <script type="module" src="app.js"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Icon Generator</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 24px; background: #111827; color: #f8fafc; }
+      canvas { border: 1px solid #334155; border-radius: 24px; background: linear-gradient(135deg, #2563eb, #38bdf8); }
+      button { margin-top: 12px; padding: 10px 16px; border: 0; border-radius: 999px; background: #38bdf8; color: white; font-weight: 700; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Generate app icons</h1>
+    <canvas id="canvas" width="512" height="512"></canvas>
+    <br />
+    <button onclick="downloadIcons()">Download PNG icons</button>
+
+    <script>
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+
+      function drawIcon(size) {
+        const c = document.createElement('canvas');
+        c.width = size;
+        c.height = size;
+        const cc = c.getContext('2d');
+
+        const gradient = cc.createLinearGradient(0, 0, size, size);
+        gradient.addColorStop(0, '#2563eb');
+        gradient.addColorStop(1, '#38bdf8');
+        cc.fillStyle = gradient;
+        cc.beginPath();
+        cc.roundRect(0, 0, size, size, size * 0.26);
+        cc.fill();
+
+        cc.fillStyle = 'rgba(255,255,255,0.95)';
+        cc.beginPath();
+        cc.roundRect(size * 0.22, size * 0.22, size * 0.56, size * 0.56, size * 0.16);
+        cc.fill();
+
+        cc.fillStyle = '#0f172a';
+        cc.font = `bold ${size * 0.24}px Arial`;
+        cc.textAlign = 'center';
+        cc.textBaseline = 'middle';
+        cc.fillText('♫', size / 2, size / 2 + size * 0.01);
+
+        return c;
+      }
+
+      function render() {
+        const icon = drawIcon(512);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(icon, 0, 0);
+      }
+
+      function downloadIcons() {
+        const sizes = [192, 512];
+        sizes.forEach((size) => {
+          const icon = drawIcon(size);
+          const link = document.createElement('a');
+          link.download = `icon-${size}.png`;
+          link.href = icon.toDataURL('image/png');
+          link.click();
+        });
+      }
+
+      render();
+    </script>
+  </body>
+</html>
